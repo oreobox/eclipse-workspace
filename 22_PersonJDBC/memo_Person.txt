@@ -1,0 +1,48 @@
+drop sequence perseq;
+create sequence perseq
+	increment by 1
+	start with 1
+	minvalue 0
+	nocache; -- 미리 수를 1~20까지 뽑아놓지  말라는 뜻
+	
+drop table person;
+create table person(
+	num number primary key,
+	name varchar2(20),
+	age number,
+	gender char(3),
+	birth date default sysdate
+);
+
+insert into person values(perseq.nextval,'보라',23,'여','1992/3/4');
+insert into person values(perseq.nextval,'슬기',34,'여','1977/11/9');
+insert into person values(perseq.nextval,'찬열',17,'남','2004/12/29');
+insert into person values(perseq.nextval,'백현',57,'남','1965/2/6');
+
+commit;
+select * from person;
+
+
+[JDBC 프로그래밍 단계]
+0. ojdbc8.jar파일 가져오기
+1. 드라이버 로드 : Class.forName
+2. 계정 접속 : Connection conn = DriverManager.getConnection(url,user,pw);
+3. sql문 분석(실행할 준비) conn.prepareStatement(sql)
+4. sql문 실행
+	select: rs = ps.executeQuery();
+	insert,update,delete : int count = ps.executeUpdate
+5. 접속 종료(자원 반납) : conn.close();
+
+
+
+
+DTO(Data Transfer Object)
+-데이터 전달을 위해 만든 오브젝트(객체)
+-bean, VO(Value Object)라고 부르기도 한다. -- 값을 가지고 있는 객체 한덩어리
+-데이터를 담을 수 있는 private 변수와 그 변수를 조작할 수 있는 setter,getter(메서드)로 구성된다.
+
+DAO(Data Access Object)
+-DB를 사용해 데이터를 조작하거나 조회하는 기능을 전담하도록 만든 오브젝트(객체)
+-저장소(DB)에 데이터를 입력, 조회, 수정, 삭제 등 처리를 담당
+
+
